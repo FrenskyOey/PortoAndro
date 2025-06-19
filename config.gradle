@@ -1,0 +1,88 @@
+import com.frensky.porto.buildsrc.project.LocalProperties
+import com.frensky.porto.buildsrc.project.Build
+
+def localProps = new LocalProperties(project.rootProject)
+
+ext {
+    defaultBuildType = localProps.get("default_build_type", "debug")
+
+    defaultConfigAppSetting = {
+        compileSdkVersion Build.compileSdk
+        defaultConfig {
+            applicationId Build.applicationId
+            minSdkVersion Build.minSdk
+            targetSdkVersion Build.targetSdk
+            versionCode Build.versionCode
+            versionName Build.versionName
+        }
+
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
+
+        kotlinOptions {
+            jvmTarget = Build.jvmTarget
+        }
+    }
+
+    defaultConfigFeatureSetting = {
+        compileSdkVersion Build.compileSdk
+
+        defaultConfig {
+            minSdkVersion Build.minSdk
+            targetSdkVersion Build.targetSdk
+            consumerProguardFiles "consumer-rules.pro"
+        }
+
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
+
+        kotlinOptions {
+            jvmTarget = Build.jvmTarget
+        }
+    }
+
+    defaultLogicSetting = {
+        compileSdkVersion Build.compileSdk
+
+        defaultConfig {
+            minSdkVersion Build.minSdk
+            targetSdkVersion Build.targetSdk
+            consumerProguardFiles "consumer-rules.pro"
+        }
+
+        kotlinOptions {
+            jvmTarget = Build.jvmTarget
+        }
+    }
+
+    buildTypeConfig = {
+        buildTypes {
+            debug {
+                getIsDefault().set(defaultBuildType == "debug")
+            }
+            release {
+                getIsDefault().set(defaultBuildType == "release")
+                /** minifyEnabled true **/
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            }
+        }
+    }
+
+    buildTypeModuleConfig = {
+        buildTypes {
+            debug {
+                getIsDefault().set(defaultBuildType == "debug")
+            }
+            release {
+                getIsDefault().set(defaultBuildType == "release")
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            }
+        }
+    }
+
+
+}

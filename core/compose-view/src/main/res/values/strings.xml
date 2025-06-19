@@ -1,0 +1,8 @@
+<resources>
+    <!-- General Error State -->
+    <string name="error_state_title">Terjadi kesalahan sistem</string>
+    <string name="error_state_message">Harap mencoba kembali</string>
+    <string name="error_state_retry_button_label">Muat Ulang</string>
+
+    <!-- File Uploader -->
+</resources>

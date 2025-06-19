@@ -1,0 +1,78 @@
+import com.frensky.porto.buildsrc.project.LocalProperties
+import com.frensky.porto.buildsrc.project.Build
+
+def localProps = new LocalProperties(project.rootProject)
+
+ext {
+    defaultVariant = localProps.get("default_variant", "staging")
+
+    // Check if postfix_version is not "none", then append it to VERSION_NAME
+    def versionName = "${Build.versionName}"
+
+    appSiginingKeyConfig = {
+        flavorDimensions 'variant'
+
+        signingConfigs {
+            releaseStaging {
+                storeFile file("${KEY_STORE_DIR}/staging.jks")
+                storePassword DEBUG_STORE_PASSWORD
+                keyAlias DEBUG_KEY_ALIAS
+                keyPassword DEBUG_KEY_PASSWORD
+            }
+        }
+
+        productFlavors {
+            production {
+                getIsDefault().set(defaultVariant == "production")
+                dimension 'variant'
+                signingConfig signingConfigs.releaseStaging
+                buildConfigField("long", "VERSION_CODE", "${Build.versionCode}")
+                buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
+            }
+
+            staging {
+                getIsDefault().set(defaultVariant == "staging")
+                dimension 'variant'
+                signingConfig signingConfigs.releaseStaging
+                buildConfigField("long", "VERSION_CODE", "${Build.versionCode}")
+                buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
+            }
+        }
+    }
+
+    dataVariantConfig = {
+        flavorDimensions 'variant'
+        productFlavors {
+            production {
+                getIsDefault().set(defaultVariant == "production")
+                dimension 'variant'
+                buildConfigField("long", "VERSION_CODE", "${Build.versionCode}")
+                buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
+                buildConfigField("String", "BASE_URL", "\"${base_url}\"")
+            }
+
+            staging {
+                getIsDefault().set(defaultVariant == "staging")
+                dimension 'variant'
+                buildConfigField("long", "VERSION_CODE", "${Build.versionCode}")
+                buildConfigField("String", "VERSION_NAME", "\"${versionName}\"")
+                buildConfigField("String", "BASE_URL", "\"${base_url}\"")
+            }
+        }
+    }
+
+    defaultVariantConfig = {
+        flavorDimensions 'variant'
+        productFlavors {
+            production {
+                getIsDefault().set(defaultVariant == "production")
+                dimension 'variant'
+            }
+
+            staging {
+                getIsDefault().set(defaultVariant == "staging")
+                dimension 'variant'
+            }
+        }
+    }
+}

@@ -1,0 +1,72 @@
+ext {
+    dataDependencies = {
+        implementation libs.coroutines
+        implementation libs.hilt
+        ksp libs.hilt.compiler
+
+        implementation libs.retrofit
+        implementation libs.retrofit.gson
+
+        implementation libs.room.runtime
+        implementation libs.room.ktx
+        ksp libs.room.compiler
+
+        implementation(libs.chucker) { artifact { type = 'aar' } }
+    }
+
+    commonDependencies = {
+        implementation libs.hilt
+        ksp libs.hilt.compiler
+    }
+
+    workerHiltDependencies = {
+        implementation libs.androidx.work.runtime.ktx
+        implementation libs.hilt.worker
+        ksp libs.hilt.worker.kapt
+    }
+
+    unitTestDependencies = {
+        testImplementation libs.kotlin.reflection
+        testImplementation libs.coroutines
+        testImplementation libs.kotlinx.coroutinesTest
+
+        testImplementation libs.junit
+        testImplementation libs.androidx.lifecycle.runtime.testing
+        testImplementation libs.androidx.architecture.test
+        testImplementation libs.mockk.test
+
+        testImplementation libs.turbine.test
+    }
+
+    coreNativeViewDependencies = {
+        implementation libs.androidx.coreKtx
+        implementation libs.androidx.appCompat
+        implementation libs.androidx.constraintLayout
+        implementation libs.androidx.cardView
+        implementation libs.androidx.vectorAnimated
+        implementation libs.androidx.gridLayout
+        implementation libs.androidx.fragment.navigation
+        implementation libs.androidx.fragment.ktx
+        implementation libs.androidx.navigation
+        implementation libs.androidx.activity
+        implementation libs.androidx.lifecycle.runtime.ktx
+
+        implementation libs.google.material
+        implementation libs.glide
+    }
+
+    composeDependencies = {
+        implementation platform(libs.compose.bom)
+        implementation libs.compose.ui
+        implementation libs.compose.ui.tooling.preview
+        implementation libs.compose.material3
+        implementation libs.compose.activity
+        implementation libs.compose.coil
+        implementation libs.compose.fonts
+        implementation libs.compose.navigation
+        implementation libs.kotlinx.serialization
+        implementation libs.hilt.navigation
+        implementation libs.accompanist.permissions
+        debugImplementation libs.compose.ui.tooling
+    }
+}
